@@ -3,6 +3,7 @@ class TVAnalyzer {
 
 	// CHANGE THIS URL TO POINT TO YOUR PLEX SERVER
 	private static $PlexURL = 'http://localhost:32400';
+	private static $PlexToken = "";
 
 	private static $TVDBSearchURL = 'http://www.thetvdb.com/api/GetSeries.php?seriesname=';
 	private static $TVDBLookURL = 'http://www.thetvdb.com/api/D3C42D98171EFD99/series/%s/all/en.xml';
@@ -116,6 +117,17 @@ private static function ContainsEpisode($episode, $show) {
 
 // Get the source for a specific URL
 private static function GetUrlSource($url) {
+	$request_url = parse_url($url);
+	$plex = parse_url(TVAnalyzer::$PlexURL);
+	if ($request_url["host"] == $plex["host"] && $request_url["port"] == $plex["port"] &&
+		$request_url["scheme"] == $plex["scheme"] && TVAnalyzer::$PlexToken != "") {
+		parse_str($parse_str['query'], $query);
+		if (count($query) == 0)
+			$url = $url . "?X-Plex-Token=" . TVAnalyzer::$PlexToken;
+		else
+			$url = $url . "&X-Plex-Token=" . TVAnalyzer::$PlexToken;
+	}
+
 	$session = curl_init($url);
 	curl_setopt($session, CURLOPT_HEADER, false);
 	curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
