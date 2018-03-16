@@ -2,10 +2,11 @@
 <html>
 <head>
 <title>Missing Television Episodes</title>
-<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
-<script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
-<script type="text/javascript" src="js/jquery.treeTable.min.js"></script>
-<link rel="stylesheet" href="css/tv.css" type="text/css" />
+<script type="text/javascript" src="/js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="/js/jquery.treeTable.min.js"></script>
+<link rel="stylesheet" href="/css/tv.css" type="text/css" />
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
 <script type="text/javascript">
 
  function SubmitForm() {
@@ -26,9 +27,10 @@
 		}
 	}
 
-	if (show_id === ""
+	if (show_id === "" || show === "" || lang === "")
+		return;
 
-	$("#resultpart").html('<tr><td /><td><img src="img/ajax-loader.gif" alt="loading..." /></td><td /></tr>');
+	$("#resultpart").html('<tr><td /><td><center><div class="loader"></div></center></td><td /></tr>');
 	$.post('results.php', { show_id: show_id, show: show, lang: lang},
 		function(data) {
 			$('#resultpart').html(data);
@@ -39,22 +41,32 @@
 </script>
 </head>
 <body>
+
+<div class="row">
+<div style="margin: auto;">
+<form class="form-inline">
 <?php
 include_once('tvclass.php');
-echo'<div id="filepath">
-					<div style="float:left;padding-right:10px;padding-bottom:12px;">Select a Show: </div>
-					<div  style="float:left;"><select id="showSelector">';
+echo '
+	<div class="form-group mb-2 mt-2">
+		<label for="showSelector" class="mr-4">Select a TVShow: </label>
+		<select class="form-control" id="showSelector">';
 		foreach(TVAnalyzer::GetUserShows() as $key => $value)
 		{
 			echo '<option value="'.$value.'">'.$key.'</option>';
 		}
-
-		echo			'</select></div>
-					<div  style="float:left;"><input value="Submit" type="button" name="getshows" id="getshows" onClick="SubmitForm(); return false;" /></div>
-
-			';
+echo '		</select>
+		<input value="Submit" type="button" name="getshows" id="getshows" class="btn btn-primary ml-2" onClick="SubmitForm(); return false;" />
+	</div>';
 ?>
-<table cellspacing="0" id="tvtable">
+</form>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+<table cellspacing="0" id="tvtable" class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Name</th>
@@ -65,5 +77,6 @@ echo'<div id="filepath">
     <tbody id="resultpart">
     </tbody>
 </table>
+</div>
 </body>
 </html>

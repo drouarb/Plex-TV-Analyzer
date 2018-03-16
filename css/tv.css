@@ -1,80 +1,44 @@
 /* tables */
 
-
-* {
-	font-family: Arial, Helvetica, sans-serif;
-}
 #filepath {
 	width: 900px;
 	margin-left: auto;
 	margin-right: auto;
 }
-
-pre {
-	font-family: "Courier New", Courier, monospace;
-
-	font-size: 14px;
-	width: 100%;
-}
-h1 {
-		
-	font-size: 20px;
-	color: #4D4D4D;
-}
-h3 {
-	font-size: 16px;	
-
-	color: #3D3D3D;
-}
 th {
 	text-align: left;
 	padding: 5px;
-	background-color: #6E6E6E;
+}
+tr {
+	height: 20px;
 }
 td {
-	color: #FFF;
 	padding: 5px;
 }
 table {
 	font-size: 12px;
-	background-color: #4D4D4D;
 	width: 900px;
-	border: 1px solid #000;
 	margin-left: auto;
 	margin-right: auto;
 }
-.even {
-	background-color: #3D3D3D;
-}
-.odd {
-	background-color: #6E6E6E;
-}
-.highlight {
-	background-color: #3D3D3D;
-	font-weight: bold;
-}
-thead tr th{
-	background-image: url(../img/header-bg.png);
-	background-repeat: repeat;
-	border-left: 1px solid #FFF;
-	border-right: 1px solid #000;
-	border-top: 1px solid #FFF;
-	padding-left: 10px;
-	padding-top: 8px;
-	height: auto;
-}
 .episode {
-padding-left: 60px;
+	padding-left: 60px;
 }
 .season {
-padding-left: 30px;
-background-image: url(../img/header-bg.png);
-background-repeat: repeat;
-color: black;
+	padding-left: 30px;
 }
 
-.show {
-	background-image: url(../img/header-bg.png);
-	background-repeat: repeat;
-	color: black;
+.loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
 }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
