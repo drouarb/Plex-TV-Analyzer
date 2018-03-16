@@ -6,13 +6,13 @@ class TVAnalyzer {
 	private static $PlexToken = "";
 
 	private static $TVDBSearchURL = 'http://www.thetvdb.com/api/GetSeries.php?seriesname=';
-	private static $TVDBLookURL = 'http://www.thetvdb.com/api/D3C42D98171EFD99/series/%s/all/en.xml';
-	public static function AnalyzeShow($show_name,$show_id) {
+	private static $TVDBLookURL = 'http://www.thetvdb.com/api/D3C42D98171EFD99/series/%s/all/%s.xml';
+	public static function AnalyzeShow($show_name,$show_id, $lang) {
 		if (!is_int($show_id))
 			return 'null';
 		$refshows = array();
 		$show = TVAnalyzer::GetUserShowEpisodes($show_name,$show_id);
-		$refshows[] = TVAnalyzer::GetTVDBShowEpisodes($show);
+		$refshows[] = TVAnalyzer::GetTVDBShowEpisodes($show, $lang);
 		return $refshows;
 	}
 
@@ -22,9 +22,10 @@ class TVAnalyzer {
 		$xml = simplexml_load_string(TVAnalyzer::GetUrlSource($sectionUrl));
 		foreach ($xml->Directory as $sec) {
 			if ((string) $sec['type'] == 'show') {
+				$shows[(string)$sec["title"]] = (string)$sec["language"];
 				$secXML = simplexml_load_string(TVAnalyzer::GetUrlSource($sectionUrl.'/'.$sec['key'].'/all'));
 				foreach ($secXML->Directory as $sho) {
-					$shows[strval($sho['title'])] = $sho['ratingKey'];
+					$shows["&nbsp;&nbsp;&nbsp;&nbsp;" . strval($sho['title'])] = $sho['ratingKey'];
 				}
 
 			}
@@ -55,13 +56,13 @@ class TVAnalyzer {
  foreach ($files as $file) {
  if (preg_match('/(.+)\ss([0-9]+)e([0-9]+)/ms', $file, $matches) < 1) */
 
-private static function GetTVDBShowEpisodes($original_show) {
+private static function GetTVDBShowEpisodes($original_show, $lang) {
 
 	// Url encode the name of the show
 	$fixed_name = urlencode($original_show->ShowName);
 
 	// create the search url by appending the show name onto the search url
-	$show_url = TVAnalyzer::$TVDBSearchURL.$fixed_name;
+	$show_url = TVAnalyzer::$TVDBSearchURL.$fixed_name."&language=".$lang;
 
 	// Load the xml object from the source of the search result
 	$xml = simplexml_load_string(TVAnalyzer::GetUrlSource($show_url));
@@ -70,7 +71,7 @@ private static function GetTVDBShowEpisodes($original_show) {
 	$series_id = (string) $xml->Series[0]->seriesid;
 
 	// Create a lookup url from the TVDB Id
-	$lookup_url = sprintf(TVAnalyzer::$TVDBLookURL, $series_id);
+	$lookup_url = sprintf(TVAnalyzer::$TVDBLookURL, $series_id, $lang);
 
 	// Create an XML object from the source of the lookup
 	$xml = simplexml_load_string(TVAnalyzer::GetUrlSource($lookup_url));

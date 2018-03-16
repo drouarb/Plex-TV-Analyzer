@@ -3,7 +3,8 @@ include_once('tvclass.php');
 if(!empty($_POST['show_id'])) {
 	$show_id = intval($_POST['show_id']);
 	$show_name = $_POST['show'];
-	$shows = TVAnalyzer::AnalyzeShow($show_name,$show_id);
+	$lang = $_POST['lang'];
+	$shows = TVAnalyzer::AnalyzeShow($show_name,$show_id, $lang);
 	if(!is_array($shows)) {
 	echo $shows;
 	exit();
