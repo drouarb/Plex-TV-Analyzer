@@ -12,7 +12,7 @@ class TVAnalyzer {
 			return 'null';
 		$refshows = array();
 		$show = TVAnalyzer::GetUserShowEpisodes($show_name,$show_id);
-		$refshows[] = TVAnalyzer::GetTVDBShowEpisodes($show);		
+		$refshows[] = TVAnalyzer::GetTVDBShowEpisodes($show);
 		return $refshows;
 	}
 
@@ -32,7 +32,7 @@ class TVAnalyzer {
 		return $shows;
 	}
 
-	private static function GetUserShowEpisodes($show_name,$show_id) {	
+	private static function GetUserShowEpisodes($show_name,$show_id) {
 		$show = new Show();
 		$show->ShowName = $show_name;
 		$show->Episodes = array();
@@ -50,10 +50,8 @@ class TVAnalyzer {
 
 
 /*$files = TVAnalyzer::GetFilesinFolder($folder_path);
-		
-				
- // go through all the files and if they match the regex, add them to an array for reference
-		
+// go through all the files and if they match the regex, add them to an array for reference
+
  foreach ($files as $file) {
  if (preg_match('/(.+)\ss([0-9]+)e([0-9]+)/ms', $file, $matches) < 1) */
 
